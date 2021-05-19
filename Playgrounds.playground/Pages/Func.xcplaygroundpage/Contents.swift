@@ -24,19 +24,15 @@ func blur(radius: Double) -> Filter {
 }
 
 func colorGenerator(color: UIColor) -> Filter {
-    return { _ in
+    return { image in
         let c = CIColor(color: color)
         let parameters: [String: Any] = [
             kCIInputColorKey: c
         ]
         guard let filter = CIFilter(name: "CIConstantColorGenerator", parameters: parameters) else { fatalError() }
         guard let outputImage = filter.outputImage else { fatalError() }
-        return outputImage
+        return outputImage.cropped(to: image.extent)
     }
-}
-
-if let image = UIImage(named: "img_0.jpg") {
-    colorGenerator(color: .red)(CIImage(cgImage: image.cgImage!))
 }
 
 func compositeSourceOver(overlay: CIImage) -> Filter {
@@ -53,21 +49,18 @@ func compositeSourceOver(overlay: CIImage) -> Filter {
 
 func colorOverlay(color: UIColor) -> Filter {
     return { image in
-        return colorGenerator(color: color)(image)
-//        let overlay = colorGenerator(color: color)(image)
-//        return compositeSourceOver(overlay: overlay)(image)
+        let overlay = colorGenerator(color: color)(image)
+        return compositeSourceOver(overlay: overlay)(image)
     }
 }
 
 if let image = UIImage(named: "willowtree_logo") {
-//    let outputImage = CIImage(cgImage: image.cgImage!)
-//    let outputImage = colorOverlay(color: .red)(CIImage(cgImage: image.cgImage!))
-    let outputImage = colorOverlay(color: .red)(CIImage(cgImage: image.cgImage!))
+    colorOverlay(color: .red.withAlphaComponent(0.2))(CIImage(cgImage: image.cgImage!))
 }
 
 let filter = blur(radius: 5)
 if let image = UIImage(named: "img_0.jpg") {
-    let outputImage = filter(CIImage(cgImage: image.cgImage!))
+    filter(CIImage(cgImage: image.cgImage!))
 }
 
 func add(x: Int) -> (Int) -> Int {
