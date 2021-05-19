@@ -54,8 +54,29 @@ func colorOverlay(color: UIColor) -> Filter {
     }
 }
 
+//滤镜组合生成新的滤镜
+func composeFilters(filter1: @escaping Filter, filter2: @escaping Filter) -> Filter {
+    { image in filter2(filter1(image)) }
+}
+precedencegroup CustomerPrecedence {
+  /// 优先从左向右， left, right or none
+  associativity: left
+  higherThan: MultiplicationPrecedence//优先级，比乘法运算高
+  // lowerThan: AdditionPrecedence // 优先级, 比加法运算低
+  assignment: false // 是否是赋值运算
+}
+infix operator =>: AdditionPrecedence
+
+func => (filter1: @escaping Filter, filter2: @escaping Filter) -> Filter {
+    return { image in filter2(filter1(image)) }
+}
+
 if let image = UIImage(named: "willowtree_logo") {
-    colorOverlay(color: .red.withAlphaComponent(0.2))(CIImage(cgImage: image.cgImage!))
+//    let filter = blur(radius: 10) => colorOverlay(color: .red.withAlphaComponent(0.2))
+    let filter = colorOverlay(color: .red.withAlphaComponent(0.2)) => blur(radius: 10)
+    filter(CIImage(cgImage: image.cgImage!))
+//    blur(radius: 10)(colorOverlay(color: .red.withAlphaComponent(0.2))(CIImage(cgImage: image.cgImage!)))
+//    composeFilters(filter1: colorOverlay(color: .red.withAlphaComponent(0.2)), filter2: blur(radius: 10))(CIImage(cgImage: image.cgImage!))
 }
 
 let filter = blur(radius: 5)
