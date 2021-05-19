@@ -4,5 +4,6 @@
         <page name='Codable'/>
         <page name='Struct&amp;Class'/>
         <page name='Func'/>
+        <page name='Map&amp;Filter&amp;Reduce'/>
     </pages>
 </playground>
