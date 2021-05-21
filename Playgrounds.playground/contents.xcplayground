@@ -6,5 +6,6 @@
         <page name='Func'/>
         <page name='Map&amp;Filter&amp;Reduce'/>
         <page name='Generators&amp;Sequences'/>
+        <page name='CIFilter'/>
     </pages>
 </playground>

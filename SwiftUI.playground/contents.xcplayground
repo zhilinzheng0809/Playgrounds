@@ -3,5 +3,6 @@
     <pages>
         <page name='View'/>
         <page name='Update'/>
+        <page name='Layout'/>
     </pages>
 </playground>
