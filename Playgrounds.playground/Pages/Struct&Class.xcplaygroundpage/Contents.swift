@@ -138,3 +138,45 @@ print(CFGetRetainCount(view))
 window = nil
 //print(view?.window) //会崩溃
 
+
+
+struct PointStruct {
+    var x: Int
+    var y: Int
+    
+    mutating func set() {
+        x = 0
+        y = 0
+    }
+}
+
+class PointClass {
+    var x: Int
+    var y: Int
+
+    init (x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
+}
+
+var structPoint = PointStruct(x: 1, y: 2)
+
+func setStructToOrigin( point: inout PointStruct) -> PointStruct {
+    point.set()
+    return point
+}
+
+//函数参数会默认加个let来防止内部修改，所以结构体是不能修改自身，也不能修改属性，但是类是可以修改属性，但是不能修改自身
+let struct1 = setStructToOrigin(point: &structPoint)
+print(struct1.x, structPoint.x)
+
+func setClassToOrigin(point: PointClass) -> PointClass {
+    point.x = 0
+    point.y = 0
+    return point
+}
+
+let point = PointClass(x: 10, y: 20)
+let point1 = setClassToOrigin(point: point)
+print(point.x, point1.x)
