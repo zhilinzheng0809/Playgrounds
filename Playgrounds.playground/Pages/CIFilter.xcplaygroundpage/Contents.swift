@@ -70,7 +70,7 @@ func tintColor(with color: UIColor) -> Filter {
 
 if let image = UIImage(named: "img_0.jpg") {
     let inputImage = CIImage(cgImage: image.cgImage!)
-    let outputImage = inputImage => blur(radius: 2) => tintColor(with: .red.withAlphaComponent(0.2))
+    let outputImage = inputImage => tintColor(with: .red.withAlphaComponent(0.2))
 }
 
 if let image = UIImage(named: "img_0.jpg") {
