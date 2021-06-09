@@ -4,6 +4,7 @@ import CoreImage
 import UIKit
 
 typealias Filter = (CIImage) -> CIImage
+typealias Transition = (CIImage, CIImage) -> CIImage
 
 infix operator =>: AdditionPrecedence
 
@@ -13,6 +14,11 @@ func => (filter1: @escaping Filter, filter2: @escaping Filter) -> Filter {
 
 func => (image: CIImage, filter: Filter) -> CIImage {
     return filter(image)
+}
+
+func => (source: (CIImage, CIImage), filter: Filter) -> CIImage {
+//    return filter(image)
+    return source.0
 }
 
 func blur(radius: Double) -> Filter {
