@@ -7,8 +7,6 @@
         <page name='Map&amp;Filter&amp;Reduce'/>
         <page name='Generators&amp;Sequences'/>
         <page name='CIFilter'/>
-        <page name='JS'/>
         <page name='Map'/>
-        <page name='Wrapper'/>
     </pages>
 </playground>
